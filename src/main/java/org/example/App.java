@@ -4,12 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class App
 {
@@ -29,9 +27,9 @@ public class App
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(response.body());
         //parse JSON into objects
-        //ObjectMapper mapper = new ObjectMapper();
-
+        ObjectMapper mapper = new ObjectMapper();
+        Fact fact = mapper.readValue(response.body(), new TypeReference<Fact>() {});
+        System.out.println(fact);
     }
 }
